@@ -2,7 +2,7 @@
 
 import os
 import nltk
-os.chdir('C:/Users/matth/QS2020/QuitSmokingTweets')
+os.chdir('C:/Users/matth/Documents/GitHub/QS2020/QuitSmokingTweets')
 
 
 import pandas as pd
@@ -130,7 +130,7 @@ from nltk.corpus import wordnet
 from nltk.tokenize import RegexpTokenizer
 
 lemmatizer = WordNetLemmatizer()
-tokenizer = RegexpTokenizer('\s+', gaps=True)
+tokenizer = RegexpTokenizer(r'\w+')
 
 # function to convert nltk tag to wordnet tag
 def nltk_tag_to_wordnet_tag(nltk_tag):
@@ -312,7 +312,7 @@ for idx, topic in model.print_topics(-1,50):
 
 
 # Calculate coherence
-# coherence is: 0.35347 
+# coherence is: 0.
 coherence_model_lda = CoherenceModel(model=model, texts=justTweetsAll, dictionary=dictionaryAll, coherence='c_v')
 coherence_lda = coherence_model_lda.get_coherence()
 print('coherence is: ', coherence_lda)
@@ -339,8 +339,8 @@ pyLDAvis.save_html(vis, 'lda.html')
 #model = pickle.load(open("model.pkl", "rb"))
 
 #also try this way as a backup:
-model.save('C:/Users/matth/QS2020/model_save')
-model = LdaModel.load('C:/Users/matth/QS2020/model_save')
+model.save('C:/Users/matth/Documents/GitHub/QS2020/model_save')
+model = LdaModel.load('C:/Users/matth/Documents/GitHub/QS2020/model_save')
 
 #####################################################################################################################
 
