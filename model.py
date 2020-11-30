@@ -242,7 +242,7 @@ from gensim.models import CoherenceModel
 
 
 # Set training parameters.
-chunksize = 115521
+chunksize = 67479
 passes = 10
 iterations = 200
 eval_every = None  # evaluate perplexity
@@ -251,7 +251,7 @@ eval_every = None  # evaluate perplexity
 temp = dictionaryAll[0]  # This is only to "load" the dictionary.
 id2word = dictionaryAll.id2token
 
-#montecarlo showed 8,11,13 topics as being a decent spot for c_v coherence
+#montecarlo showed 8 topics as being a decent spot for c_v coherence
 for i in range(2,51,1):
     model = LdaModel(
         corpus=corpus2018,
@@ -281,8 +281,8 @@ import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.DEBUG)
 
 # Set training parameters.
-num_topics = 13
-chunksize = 115521
+num_topics = 8
+chunksize = 67479
 passes = 20
 iterations = 4000
 eval_every = 1
@@ -339,8 +339,8 @@ pyLDAvis.save_html(vis, 'lda.html')
 #model = pickle.load(open("model.pkl", "rb"))
 
 #also try this way as a backup:
-model.save('C:/Users/matth/SocialStudio/data/model_save')
-model = LdaModel.load('C:/Users/matth/SocialStudio/data/model_save')
+model.save('C:/Users/matth/QS2020/model_save')
+model = LdaModel.load('C:/Users/matth/QS2020/model_save')
 
 #####################################################################################################################
 
