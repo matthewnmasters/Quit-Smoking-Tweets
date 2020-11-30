@@ -40,3 +40,10 @@ Num Topics:  40 coherence is:  0.32183065904086955
 Num Topics:  41 coherence is:  0.34040415300382926
 Num Topics:  42 coherence is:  0.3304565743610509
 Num Topics:  43 coherence is:  0.34478522857819566
+Num Topics:  44 coherence is:  0.3344368142963802
+Num Topics:  45 coherence is:  0.3358253717818839
+Num Topics:  46 coherence is:  0.32804231049845683
+Num Topics:  47 coherence is:  0.3238179500596763
+Num Topics:  48 coherence is:  0.3251609217462758
+Num Topics:  49 coherence is:  0.3321432108172595
+Num Topics:  50 coherence is:  0.3475265674731874
