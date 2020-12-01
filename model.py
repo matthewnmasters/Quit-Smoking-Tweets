@@ -281,7 +281,7 @@ import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.DEBUG)
 
 # Set training parameters.
-num_topics = 8
+num_topics = 10
 chunksize = 67479
 passes = 20
 iterations = 4000
@@ -312,7 +312,7 @@ for idx, topic in model.print_topics(-1,50):
 
 
 # Calculate coherence
-# coherence is: 0.
+# coherence is: 0.33
 coherence_model_lda = CoherenceModel(model=model, texts=justTweetsAll, dictionary=dictionaryAll, coherence='c_v')
 coherence_lda = coherence_model_lda.get_coherence()
 print('coherence is: ', coherence_lda)
