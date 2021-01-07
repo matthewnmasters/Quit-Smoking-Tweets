@@ -8,13 +8,14 @@ dat2018<- read.csv("C:/Users/matth/Documents/GitHub/QS2020/QuitSmokingTweets/pro
 dat2019<- read.csv("C:/Users/matth/Documents/GitHub/QS2020/QuitSmokingTweets/processedtweets2019.csv") %>% filter(PUBLISH_DATE!= "")
 dat2020<- read.csv("C:/Users/matth/Documents/GitHub/QS2020/QuitSmokingTweets/processedtweets2020.csv") %>% filter(PUBLISH_DATE!= "")
 datNEW<- read.csv("C:/Users/matth/Documents/GitHub/QS2020/QuitSmokingTweets/processedtweetsNEW.csv") %>% filter(PUBLISH_DATE!= "")
-allData<- rbind(dat2018, dat2019, dat2020) %>% mutate(newDate=as.Date(PUBLISH_DATE, "%m/%d/%Y")) %>%
+allData<- rbind(dat2018, dat2019, dat2020, datNEW) %>% mutate(newDate=as.Date(PUBLISH_DATE, "%m/%d/%Y")) %>%
   mutate(tweetYear= year(newDate), tweetMonth= month(newDate), tweetDay=day(newDate)) %>%
   group_by(tweetYear) %>% add_count(tweetYear, name="totalYearlyTweets") %>%
   group_by(tweetMonth) %>% add_count(tweetMonth, name= "totalMonthlyTweets") %>%
   ungroup() %>%
   group_by(tweetYear) %>% mutate(tweetWeek= week(newDate)) %>% add_count(tweetWeek, name= "totalWeeklyTweets") %>% #isoweek instead of week is probably needed for Trends data
-  ungroup()
+  ungroup() %>%
+  distinct() #when we brought in the new data there was overlap but we didnt remove it in the code because we needed identical dictionaries
   
 
 
@@ -26,19 +27,6 @@ data.table::fwrite(representativeTweets, file="representativeTweets.csv")
 representativeTweets2018<- dat2018 %>% group_by(Dominant_Topic) %>% top_n(200, Perc_Contribution)
 data.table::fwrite(representativeTweets2018, file="representativeTweets2018.csv")
 
-#compare June "stop smoking" and "quit smoking" to see if there's overlap
-
-juneSS1<- read.csv("C:/Users/matth/Yearly_Twitter/junSS2020_1.csv")
-juneSS2<- read.csv("C:/Users/matth/Yearly_Twitter/junSS2020_2.csv")
-juneQS1<- read.csv("C:/Users/matth/Yearly_Twitter/junQS2020_1.csv")
-juneQS2<- read.csv("C:/Users/matth/Yearly_Twitter/junSS2020_2.csv")
-
-juneSSAll <- rbind(juneSS1, juneSS2) %>% select(id, ) #21.7k tweets
-juneQSAll <- rbind(juneQS1, juneQS2) %>% select(id) #17.8k tweets
-
-allTweets <- inner_join(juneSSAll, juneQSAll) #11.6 k tweets are in both
-
-# So over half of the tweets in either "quit smoking" or "stop smoking" are contained in the other search.
 
 ##############################################################################################################
 # PLOTS ######################################################################################################
