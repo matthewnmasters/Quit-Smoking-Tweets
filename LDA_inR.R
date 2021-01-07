@@ -7,6 +7,7 @@ library(lubridate)
 dat2018<- read.csv("C:/Users/matth/Documents/GitHub/QS2020/QuitSmokingTweets/processedtweets2018.csv")
 dat2019<- read.csv("C:/Users/matth/Documents/GitHub/QS2020/QuitSmokingTweets/processedtweets2019.csv") %>% filter(PUBLISH_DATE!= "")
 dat2020<- read.csv("C:/Users/matth/Documents/GitHub/QS2020/QuitSmokingTweets/processedtweets2020.csv") %>% filter(PUBLISH_DATE!= "")
+datNEW<- read.csv("C:/Users/matth/Documents/GitHub/QS2020/QuitSmokingTweets/processedtweetsNEW.csv") %>% filter(PUBLISH_DATE!= "")
 allData<- rbind(dat2018, dat2019, dat2020) %>% mutate(newDate=as.Date(PUBLISH_DATE, "%m/%d/%Y")) %>%
   mutate(tweetYear= year(newDate), tweetMonth= month(newDate), tweetDay=day(newDate)) %>%
   group_by(tweetYear) %>% add_count(tweetYear, name="totalYearlyTweets") %>%
