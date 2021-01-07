@@ -9,15 +9,18 @@ import pandas as pd
 
 #bring in the single file. Dates with Pandas and in Python in general are even more confusing than R
 allYears = pd.read_csv('noRedactedTweets.csv')
+newTweets = pd.read_csv('1102_1231_2020.csv', encoding='utf-8-sig')
 
 data2018 = allYears[allYears["PUBLISH_DATE"].str.contains("2018") == True]
 data2019 = allYears[allYears["PUBLISH_DATE"].str.contains("2019") == True]
 data2020 = allYears[allYears["PUBLISH_DATE"].str.contains("2020") == True]
+newData = newTweets[newTweets["PUBLISH_DATE"].str.contains("2020") == True]
 
 #make tweets all lowercase here, rather than later because we can filter it easier as a data frame
 data2018["CONTENT"] = data2018["CONTENT"].str.lower()
 data2019["CONTENT"] = data2019["CONTENT"].str.lower()
 data2020["CONTENT"] = data2020["CONTENT"].str.lower()
+newData["CONTENT"] = newData["CONTENT"].str.lower()
 
 #remove all URLs from tweets to facilitate removing of spam/bot posts of almost identical tweets
 #could this result in blank tweets that cause a problem?
@@ -25,61 +28,73 @@ import re
 data2018['CONTENT'] = data2018['CONTENT'].apply(lambda x: re.sub(r'http\S+', '', x))
 data2019['CONTENT'] = data2019['CONTENT'].apply(lambda x: re.sub(r'http\S+', '', x))
 data2020['CONTENT'] = data2020['CONTENT'].apply(lambda x: re.sub(r'http\S+', '', x))
+newData['CONTENT'] = newData['CONTENT'].apply(lambda x: re.sub(r'http\S+', '', x))
 
 #remove tweets that contain "weed"
 data2018 = data2018[data2018["CONTENT"].str.contains("weed") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("weed") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("weed") == False]
+newData = newData[newData["CONTENT"].str.contains("weed") == False]
 
 #remove tweets that contain "blunt"
 data2018 = data2018[data2018["CONTENT"].str.contains("blunt") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("blunt") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("blunt") == False]
+newData = newData[newData["CONTENT"].str.contains("blunt") == False]
 
 #remove tweets that contain "crack"
 data2018 = data2018[data2018["CONTENT"].str.contains("crack") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("crack") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("crack") == False]
+newData = newData[newData["CONTENT"].str.contains("crack") == False]
 
 #remove tweets that contain "roach"
 data2018 = data2018[data2018["CONTENT"].str.contains("roach") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("roach") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("roach") == False]
+newData = newData[newData["CONTENT"].str.contains("roach") == False]
 
 #remove tweets that contain "baked"
 data2018 = data2018[data2018["CONTENT"].str.contains("baked") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("baked") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("baked") == False]
+newData = newData[newData["CONTENT"].str.contains("baked") == False]
 
 #remove tweets that contain "dabs"
 data2018 = data2018[data2018["CONTENT"].str.contains("dabs") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("dabs") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("dabs") == False]
+newData = newData[newData["CONTENT"].str.contains("dabs") == False]
 
 #remove tweets that contain "marijuana"
 data2018 = data2018[data2018["CONTENT"].str.contains("marijuana") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("marijuana") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("marijuana") == False]
+newData = newData[newData["CONTENT"].str.contains("marijuana") == False]
 
 #remove tweets that contain "bong"
 data2018 = data2018[data2018["CONTENT"].str.contains("bong") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("bong") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("bong") == False]
+newData = newData[newData["CONTENT"].str.contains("bong") == False]
 
 #remove tweets that contain "mary jane"
 data2018 = data2018[data2018["CONTENT"].str.contains("mary jane") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("mary jane") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("mary jane") == False]
+newData = newData[newData["CONTENT"].str.contains("mary jane") == False]
 
 #remove tweets that contain "maryjane"
 data2018 = data2018[data2018["CONTENT"].str.contains("maryjane") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("maryjane") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("maryjane") == False]
+newData = newData[newData["CONTENT"].str.contains("maryjane") == False]
 
 #remove tweets that contain "pot"
 data2018 = data2018[data2018["CONTENT"].str.contains("pot") == False]
 data2019 = data2019[data2019["CONTENT"].str.contains("pot") == False]
 data2020 = data2020[data2020["CONTENT"].str.contains("pot") == False]
+newData = newData[newData["CONTENT"].str.contains("pot") == False]
 
 ######################################################################################################
 #Create dataframes for each "type" of tweet
@@ -88,22 +103,25 @@ data2020 = data2020[data2020["CONTENT"].str.contains("pot") == False]
 posts2018 = data2018[data2018.POST_TYPE.isnull()]
 posts2019 = data2019[data2019.POST_TYPE.isnull()]
 posts2020 = data2020[data2020.POST_TYPE.isnull()]
+newDataPosts = newData[newData.POST_TYPE.isnull()]
 
 #only retweets:
 retweets2018 = data2018[data2018.POST_TYPE.eq("RETWEET")]
 retweets2019 = data2019[data2019.POST_TYPE.eq("RETWEET")]
 retweets2020 = data2020[data2020.POST_TYPE.eq("RETWEET")]
-
+newDataRetweets = newData[newData.POST_TYPE.eq("RETWEET")]
 
 #only quote tweets:
 quoteTweets2018 = data2018[data2018.POST_TYPE.eq("QUOTE_TWEET")]
 quoteTweets2019 = data2019[data2019.POST_TYPE.eq("QUOTE_TWEET")]
 quoteTweets2020 = data2020[data2020.POST_TYPE.eq("QUOTE_TWEET")]
+newDataQuoteTweets = newData[newData.POST_TYPE.eq("QUOTE_TWEET")]
   
 #quote tweets AND retweets:
 nonOriginaltweets2018 = data2018[data2018.POST_TYPE.notnull()]
 nonOriginaltweets2019 = data2019[data2019.POST_TYPE.notnull()]
 nonOriginaltweets2020 = data2020[data2020.POST_TYPE.notnull()]
+newDataNonOriginal = newData[newData.POST_TYPE.notnull()]
 
 
 #################################################################################################################
@@ -114,6 +132,7 @@ nonOriginaltweets2020 = data2020[data2020.POST_TYPE.notnull()]
 posts2018 = posts2018.drop_duplicates(subset=['CONTENT'])
 posts2019 = posts2019.drop_duplicates(subset=['CONTENT'])
 posts2020 = posts2020.drop_duplicates(subset=['CONTENT'])
+newDataPosts = newDataPosts.drop_duplicates(subset=['CONTENT'])
 
 #132558-115521 , 109688-103166 , 108237-103979
 #Create a list of tweets instead of a data frame
@@ -121,6 +140,7 @@ posts2020 = posts2020.drop_duplicates(subset=['CONTENT'])
 justTweets2018 = list(posts2018['CONTENT'])
 justTweets2019 = list(posts2019['CONTENT'])
 justTweets2020 = list(posts2020['CONTENT'])
+justTweetsNEW = list(newDataPosts['CONTENT'])
 
 #POS tag then lemmatize. This is slow but I've had trouble using pos_tag_sents and converting those tupples to wordnet tags.
 #It's really weird how the nltk tags aren't compatible. Annoying, but this doesnt take TOO long, at least. Will need to spend
@@ -163,6 +183,7 @@ def lemmatize_sentence(sentence):
 justTweets2018 = [lemmatize_sentence(doc) for doc in justTweets2018]
 justTweets2019 = [lemmatize_sentence(doc) for doc in justTweets2019]
 justTweets2020 = [lemmatize_sentence(doc) for doc in justTweets2020]
+justTweetsNEW = [lemmatize_sentence(doc) for doc in justTweetsNEW]
 
 #We need to lemmatize again. Had trouble making the code return a list. Still learning...
 
@@ -174,17 +195,23 @@ for idx in range(len(justTweets2019)):
 
 for idx in range(len(justTweets2020)):
     justTweets2020[idx] = tokenizer.tokenize(justTweets2020[idx])  # Split into words.
+    
+for idx in range(len(justTweetsNEW)):
+    justTweetsNEW[idx] = tokenizer.tokenize(justTweetsNEW[idx])  # Split into words.
+
 
 
 # Remove numbers, but not words that contain numbers.
 justTweets2018 = [[token for token in doc if not token.isnumeric()] for doc in justTweets2018]
 justTweets2019 = [[token for token in doc if not token.isnumeric()] for doc in justTweets2019]
 justTweets2020 = [[token for token in doc if not token.isnumeric()] for doc in justTweets2020]
+justTweetsNEW = [[token for token in doc if not token.isnumeric()] for doc in justTweetsNEW]
 
 # Remove words that are only one character. #changed to more than two characters, do we want to consider stop words?
 justTweets2018 = [[token for token in doc if len(token) > 2] for doc in justTweets2018]
 justTweets2019 = [[token for token in doc if len(token) > 2] for doc in justTweets2019]
 justTweets2020 = [[token for token in doc if len(token) > 2] for doc in justTweets2020]
+justTweetsNEW = [[token for token in doc if len(token) > 2] for doc in justTweetsNEW]
 
 
 # Remove stop words
@@ -193,6 +220,7 @@ from nltk.corpus import stopwords
 justTweets2018 = [[token for token in doc if token not in stopwords.words('english')] for doc in justTweets2018]
 justTweets2019 = [[token for token in doc if token not in stopwords.words('english')] for doc in justTweets2019]
 justTweets2020 = [[token for token in doc if token not in stopwords.words('english')] for doc in justTweets2020]
+justTweetsNEW = [[token for token in doc if token not in stopwords.words('english')] for doc in justTweetsNEW]
 
 #################################################################################################################
 
@@ -203,13 +231,15 @@ from gensim.models import Phrases
 bigram2018 = Phrases(justTweets2018, min_count=20)
 bigram2019 = Phrases(justTweets2019, min_count=20)
 bigram2020 = Phrases(justTweets2020, min_count=20)
+bigramNEW = Phrases(justTweetsNEW, min_count=20)
 
 justTweets2018= list(bigram2018[justTweets2018])
 justTweets2019= list(bigram2019[justTweets2019])
 justTweets2020= list(bigram2020[justTweets2020])
+justTweetsNEW= list(bigramNEW[justTweetsNEW])
 
 justTweetsAll= justTweets2018 + justTweets2019 + justTweets2020
-
+#Dont add the new tweets because we want to recreate the same dictionary
 
 # Remove rare and common tokens.
 from gensim.corpora import Dictionary
@@ -228,6 +258,7 @@ corpusAll = [dictionaryAll.doc2bow(doc) for doc in justTweetsAll]
 corpus2018 = [dictionaryAll.doc2bow(doc) for doc in justTweets2018]
 corpus2019 = [dictionaryAll.doc2bow(doc) for doc in justTweets2019]
 corpus2020 = [dictionaryAll.doc2bow(doc) for doc in justTweets2020]
+corpusNEW = [dictionaryAll.doc2bow(doc) for doc in justTweetsNEW]
 
 # Let's see how many tokens and documents we have to train on
 print('Number of unique tokens: %d' % len(dictionaryAll))
@@ -347,6 +378,7 @@ model = LdaModel.load('C:/Users/matth/Documents/GitHub/QS2020/model_save')
 txCorpus2018 = model[corpus2018]
 txCorpus2019 = model[corpus2019]
 txCorpus2020 = model[corpus2020]
+txCorpusNEW = model[corpusNEW]
 
 sent_topics_df2018 = pd.DataFrame()
 
@@ -395,6 +427,24 @@ sent_topics_df2020.columns = ['Dominant_Topic', 'Perc_Contribution']
 posts2020.reset_index(drop=True, inplace=True)
 processed2020 = pd.concat([posts2020, sent_topics_df2020], axis=1)
 
+
+sent_topics_dfNEW = pd.DataFrame()
+
+    # Get main topic in each document
+for i, row in enumerate(txCorpusNEW):
+    row = sorted(row, key=lambda x: (x[1]), reverse=True)
+    # Get the Dominant topic, Perc Contribution and Keywords for each document
+    for j, (topic_num, prop_topic) in enumerate(row):
+        if j == 0:  # => dominant topic
+            sent_topics_dfNEW = sent_topics_dfNEW.append(pd.Series([int(topic_num), round(prop_topic,4)]), ignore_index=True)
+        else:
+            break
+sent_topics_dfNEW.columns = ['Dominant_Topic', 'Perc_Contribution']
+newDataPosts.reset_index(drop=True, inplace=True)
+processedNEW = pd.concat([newDataPosts, sent_topics_dfNEW], axis=1)
+
+
 processed2018.to_csv("processedtweets2018.csv", index=False, encoding='utf-8-sig')
 processed2019.to_csv("processedtweets2019.csv", index=False, encoding='utf-8-sig')
 processed2020.to_csv("processedtweets2020.csv", index=False, encoding='utf-8-sig')
+processedNEW.to_csv("processedtweetsNEW.csv", index=False, encoding='utf-8-sig')
