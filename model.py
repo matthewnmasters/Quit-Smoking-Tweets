@@ -375,76 +375,109 @@ model = LdaModel.load('C:/Users/matth/Documents/GitHub/QS2020/model_save')
 
 #####################################################################################################################
 
-txCorpus2018 = model[corpus2018]
-txCorpus2019 = model[corpus2019]
-txCorpus2020 = model[corpus2020]
-txCorpusNEW = model[corpusNEW]
 
-sent_topics_df2018 = pd.DataFrame()
 
-    # Get main topic in each document
-for i, row in enumerate(txCorpus2018):
-    row = sorted(row, key=lambda x: (x[1]), reverse=True)
-    # Get the Dominant topic, Perc Contribution and Keywords for each document
-    for j, (topic_num, prop_topic) in enumerate(row):
-        if j == 0:  # => dominant topic
-            sent_topics_df2018 = sent_topics_df2018.append(pd.Series([int(topic_num), round(prop_topic,4)]), ignore_index=True)
-        else:
-            break
-sent_topics_df2018.columns = ['Dominant_Topic', 'Perc_Contribution']
+#trying to not just pull the most dominant topic, but all of them so we can give partial topic counts
+wide2018 = pd.DataFrame(model.get_document_topics(corpus2018))
+wide2018.columns = ['zero','one','two','three','four','five','six','seven','eight','nine']
+wide2019 = pd.DataFrame(model.get_document_topics(corpus2019))
+wide2019.columns = ['zero','one','two','three','four','five','six','seven','eight','nine']
+wide2020 = pd.DataFrame(model.get_document_topics(corpus2020))
+wide2020.columns = ['zero','one','two','three','four','five','six','seven','eight','nine']
+wideNEW = pd.DataFrame(model.get_document_topics(corpusNEW))
+wideNEW.columns = ['zero','one','two','three','four','five','six','seven','eight','nine']
+
+
+#the above code gives tuples, we want them to be individual columns
+wide2018['zero_top'], wide2018['zero_perc'] =wide2018.zero.str
+wide2018['one_top'], wide2018['one_perc'] =wide2018.one.str
+wide2018['two_top'], wide2018['two_perc'] =wide2018.two.str
+wide2018['three_top'], wide2018['three_perc'] =wide2018.three.str
+wide2018['four_top'], wide2018['four_perc'] =wide2018.four.str
+wide2018['five_top'], wide2018['five_perc'] =wide2018.five.str
+wide2018['six_top'], wide2018['six_perc'] =wide2018.six.str
+wide2018['seven_top'], wide2018['seven_perc'] =wide2018.seven.str
+wide2018['eight_top'], wide2018['eight_perc'] =wide2018.eight.str
+wide2018['nine_top'], wide2018['nine_perc'] =wide2018.nine.str
+
+wide2019['zero_top'], wide2019['zero_perc'] =wide2019.zero.str
+wide2019['one_top'], wide2019['one_perc'] =wide2019.one.str
+wide2019['two_top'], wide2019['two_perc'] =wide2019.two.str
+wide2019['three_top'], wide2019['three_perc'] =wide2019.three.str
+wide2019['four_top'], wide2019['four_perc'] =wide2019.four.str
+wide2019['five_top'], wide2019['five_perc'] =wide2019.five.str
+wide2019['six_top'], wide2019['six_perc'] =wide2019.six.str
+wide2019['seven_top'], wide2019['seven_perc'] =wide2019.seven.str
+wide2019['eight_top'], wide2019['eight_perc'] =wide2019.eight.str
+wide2019['nine_top'], wide2019['nine_perc'] =wide2019.nine.str
+
+wide2020['zero_top'], wide2020['zero_perc'] =wide2020.zero.str
+wide2020['one_top'], wide2020['one_perc'] =wide2020.one.str
+wide2020['two_top'], wide2020['two_perc'] =wide2020.two.str
+wide2020['three_top'], wide2020['three_perc'] =wide2020.three.str
+wide2020['four_top'], wide2020['four_perc'] =wide2020.four.str
+wide2020['five_top'], wide2020['five_perc'] =wide2020.five.str
+wide2020['six_top'], wide2020['six_perc'] =wide2020.six.str
+wide2020['seven_top'], wide2020['seven_perc'] =wide2020.seven.str
+wide2020['eight_top'], wide2020['eight_perc'] =wide2020.eight.str
+wide2020['nine_top'], wide2020['nine_perc'] =wide2020.nine.str
+
+wideNEW['zero_top'], wideNEW['zero_perc'] =wideNEW.zero.str
+wideNEW['one_top'], wideNEW['one_perc'] =wideNEW.one.str
+wideNEW['two_top'], wideNEW['two_perc'] =wideNEW.two.str
+wideNEW['three_top'], wideNEW['three_perc'] =wideNEW.three.str
+wideNEW['four_top'], wideNEW['four_perc'] =wideNEW.four.str
+wideNEW['five_top'], wideNEW['five_perc'] =wideNEW.five.str
+wideNEW['six_top'], wideNEW['six_perc'] =wideNEW.six.str
+wideNEW['seven_top'], wideNEW['seven_perc'] =wideNEW.seven.str
+wideNEW['eight_top'], wideNEW['eight_perc'] =wideNEW.eight.str
+wideNEW['nine_top'], wideNEW['nine_perc'] =wideNEW.nine.str
+
+#Now merge with the original data
 posts2018.reset_index(drop=True, inplace=True)
-processed2018 = pd.concat([posts2018, sent_topics_df2018], axis=1)
+processedWide2018 = pd.concat([posts2018, wide2018], axis=1)
 
-
-sent_topics_df2019 = pd.DataFrame()
-
-    # Get main topic in each document
-for i, row in enumerate(txCorpus2019):
-    row = sorted(row, key=lambda x: (x[1]), reverse=True)
-    # Get the Dominant topic, Perc Contribution and Keywords for each document
-    for j, (topic_num, prop_topic) in enumerate(row):
-        if j == 0:  # => dominant topic
-            sent_topics_df2019 = sent_topics_df2019.append(pd.Series([int(topic_num), round(prop_topic,4)]), ignore_index=True)
-        else:
-            break
-sent_topics_df2019.columns = ['Dominant_Topic', 'Perc_Contribution']
 posts2019.reset_index(drop=True, inplace=True)
-processed2019 = pd.concat([posts2019, sent_topics_df2019], axis=1)
+processedWide2019 = pd.concat([posts2019, wide2019], axis=1)
 
-
-sent_topics_df2020 = pd.DataFrame()
-
-    # Get main topic in each document
-for i, row in enumerate(txCorpus2020):
-    row = sorted(row, key=lambda x: (x[1]), reverse=True)
-    # Get the Dominant topic, Perc Contribution and Keywords for each document
-    for j, (topic_num, prop_topic) in enumerate(row):
-        if j == 0:  # => dominant topic
-            sent_topics_df2020 = sent_topics_df2020.append(pd.Series([int(topic_num), round(prop_topic,4)]), ignore_index=True)
-        else:
-            break
-sent_topics_df2020.columns = ['Dominant_Topic', 'Perc_Contribution']
 posts2020.reset_index(drop=True, inplace=True)
-processed2020 = pd.concat([posts2020, sent_topics_df2020], axis=1)
+processedWide2020 = pd.concat([posts2020, wide2020], axis=1)
 
-
-sent_topics_dfNEW = pd.DataFrame()
-
-    # Get main topic in each document
-for i, row in enumerate(txCorpusNEW):
-    row = sorted(row, key=lambda x: (x[1]), reverse=True)
-    # Get the Dominant topic, Perc Contribution and Keywords for each document
-    for j, (topic_num, prop_topic) in enumerate(row):
-        if j == 0:  # => dominant topic
-            sent_topics_dfNEW = sent_topics_dfNEW.append(pd.Series([int(topic_num), round(prop_topic,4)]), ignore_index=True)
-        else:
-            break
-sent_topics_dfNEW.columns = ['Dominant_Topic', 'Perc_Contribution']
 newDataPosts.reset_index(drop=True, inplace=True)
-processedNEW = pd.concat([newDataPosts, sent_topics_dfNEW], axis=1)
+processedWideNEW = pd.concat([newDataPosts, wideNEW], axis=1)
 
 
-processed2018.to_csv("processedtweets2018.csv", index=False, encoding='utf-8-sig')
-processed2019.to_csv("processedtweets2019.csv", index=False, encoding='utf-8-sig')
-processed2020.to_csv("processedtweets2020.csv", index=False, encoding='utf-8-sig')
-processedNEW.to_csv("processedtweetsNEW.csv", index=False, encoding='utf-8-sig')
+processedWide2018.to_csv("processedWide2018.csv", index=False, encoding='utf-8-sig')
+processedWide2019.to_csv("processedWide2019.csv", index=False, encoding='utf-8-sig')
+processedWide2020.to_csv("processedWide2020.csv", index=False, encoding='utf-8-sig')
+processedWideNEW.to_csv("processedWideNEW.csv", index=False, encoding='utf-8-sig')
+
+
+
+#Leaving to show how just the dominant topic was extracted previously.
+
+# txCorpus2018 = model[corpus2018]
+# txCorpus2019 = model[corpus2019]
+# txCorpus2020 = model[corpus2020]
+# txCorpusNEW = model[corpusNEW]
+
+# sent_topics_dfNEW = pd.DataFrame()
+
+#     # Get main topic in each document
+# for i, row in enumerate(txCorpusNEW):
+#     row = sorted(row, key=lambda x: (x[1]), reverse=True)
+#     # Get the Dominant topic, Perc Contribution and Keywords for each document
+#     for j, (topic_num, prop_topic) in enumerate(row):
+#         if j == 0:  # => dominant topic
+#             sent_topics_dfNEW = sent_topics_dfNEW.append(pd.Series([int(topic_num), round(prop_topic,4)]), ignore_index=True)
+#         else:
+#             break
+# sent_topics_dfNEW.columns = ['Dominant_Topic', 'Perc_Contribution']
+# newDataPosts.reset_index(drop=True, inplace=True)
+# processedNEW = pd.concat([newDataPosts, sent_topics_dfNEW], axis=1)
+
+
+# processed2018.to_csv("processedtweets2018.csv", index=False, encoding='utf-8-sig')
+# processed2019.to_csv("processedtweets2019.csv", index=False, encoding='utf-8-sig')
+# processed2020.to_csv("processedtweets2020.csv", index=False, encoding='utf-8-sig')
+# processedNEW.to_csv("processedtweetsNEW.csv", index=False, encoding='utf-8-sig')
